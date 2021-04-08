@@ -15,6 +15,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// CRUD pelo front-end
+Route::resource('rota','MeuController');
+
+
 // Login
 Route::post('login', 'UsersController@authenticate');
 Route::post('authenticate', 'UsersController@authenticate');
