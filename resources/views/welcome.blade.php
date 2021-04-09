@@ -43,7 +43,7 @@
          <hr>
          <h4>Cadastro</h4>
          <p>Nome: <input type="text" id="registroNome"></p>
-         <p>Email: <input type="text" id="registroEmail"></p>
+         <p>Email: <input type="email" id="registroEmail"></p>
          <p>Senha: <input type="password" id="registroPassword"></p>
          <button class="btn btn-success" onclick="cadastrar();">Cadastrar</button>
       </div>
@@ -92,7 +92,7 @@
 
 
 
-         var servidor = '{{Request::url()}}'; // Usando o blade para capturar o endereço do servidor
+         var servidor = '{{Request::url()}}'; // Usando o blade para capturar o endereço do servidor. Troque para o endereço do servidor ao executar a aplicação externamente
 
          function resposta($dados){
             let tratamento = JSON.stringify($dados);
@@ -135,18 +135,30 @@
          
          
          function cadastrar() {
-            let registroNome  = window.document.getElementById('registroNome').value;
-            let registroEmail = window.document.getElementById('registroEmail').value;
-            let registroPassword  = window.document.getElementById('registroPassword').value;
-            let dados = { name: registroNome, email: registroEmail, password: registroPassword };
 
+                let registroNome  = window.document.getElementById('registroNome').value;
+                let registroEmail = window.document.getElementById('registroEmail').value;
+                let registroPassword  = window.document.getElementById('registroPassword').value;
+            
 
-             axios.post(servidor + '/register', dados)
+            if (registroNome[0] == null | registroEmail[0] == null | registroPassword[0] == null) {
+                alert("Todos os campos são obrigatórios!!");
+            }else{
+                let registroNome  = window.document.getElementById('registroNome').value;
+                let registroEmail = window.document.getElementById('registroEmail').value;
+                let registroPassword  = window.document.getElementById('registroPassword').value;
+                let dados = { name: registroNome, email: registroEmail, password: registroPassword };
+
+                axios.post(servidor + '/register', dados)
                  .then(function(response) {
                      resposta(response);
                      revelaToken(response);
                      autoList();
                  });
+            }
+
+
+             
          }
 
 
