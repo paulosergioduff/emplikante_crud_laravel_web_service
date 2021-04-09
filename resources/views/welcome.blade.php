@@ -92,7 +92,7 @@
 
 
 
-         var servidor = 'http://127.0.0.1:8000';
+         var servidor = '{{Request::url()}}'; // Usando o blade para capturar o endereço do servidor
 
          function resposta($dados){
             let tratamento = JSON.stringify($dados);
@@ -115,6 +115,7 @@
              axios.post(servidor + '/login', dados)
                  .then(function(response) {
                      revelaToken(response);
+                     autoList();
                  });
 
                  //listar();
@@ -130,8 +131,6 @@
                  //.then(data => console.log(data))//xrud_miniController($content)
                  .catch(error => console.log('error is', error));
 
-//console.log(path)
-
          }
          
          
@@ -145,29 +144,11 @@
              axios.post(servidor + '/register', dados)
                  .then(function(response) {
                      resposta(response);
+                     revelaToken(response);
+                     autoList();
                  });
          }
 
-
-/// Possível uso
-         function cadastrarapp() {
-        
-        let user_token = window.document.getElementById('user_token').value;
-
-             axios.post(servidor + '/app', {
-                     name: 'Envio de API2',
-                     email: 'teste@gmail.com2',
-                     password: 'admin1234',
-                     status: 1,
-                 })
-                 .then(response => { 
-                        console.log(response)
-                    })
-                    .catch(error => {
-                        console.log(error.response)
-                    });
-
-         }
 
          function updateUser($id) {
         
@@ -187,6 +168,7 @@
                  .then(response => { 
                         console.log(response)
                         resposta(response);
+                        autoList();
                     })
                     .catch(error => {
                         console.log(error.response)
@@ -208,11 +190,18 @@
                  .then(response => { 
                         console.log(response)
                         resposta(response);
+                        autoList();
                     })
                     .catch(error => {
                         console.log(error.response)
                     });
 
+         }
+
+         function autoList(){
+             setTimeout( function() {
+                    listar();
+                  }, 500 );
          }
 
          
